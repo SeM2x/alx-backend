@@ -2,7 +2,7 @@
 """module defining index_range function"""
 import csv
 from typing import List
-from typing import Tuple, Any
+from typing import Tuple, Dict
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
@@ -49,13 +49,17 @@ class Server:
             return self.__dataset[start: end]
         return None
 
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> dict[str, Any]:
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
         """
         Returns a dictionary with pagination details including page size,
         current page, data, next page, previous page, and total pages.
         """
-        data = self.get_page(page, page_size)
-        start, end = index_range(page, page_size)
+        next = None
+        try:
+            data = self.get_page(page, page_size)
+            next = self.get_page(page+1, page_size)
+        except Exception:
+            pass
 
         total = len(self.__dataset) / page_size
         total = int(total + 1) if total - int(total) > 0 else int(total)
@@ -63,7 +67,7 @@ class Server:
             "page_size": len(data),
             "page": page,
             "data": data,
-            "next_page": page + 1 if end < len(self.__dataset) else None,
-            "prev_page": page - 1 if start > 0 else None,
+            "next_page": None if not next else page + 1,
+            "prev_page": None if page <= 1 else page - 1,
             "total_pages": total
         }
