@@ -54,12 +54,8 @@ class Server:
         Returns a dictionary with pagination details including page size,
         current page, data, next page, previous page, and total pages.
         """
-        next = None
-        try:
-            data = self.get_page(page, page_size)
-            next = self.get_page(page+1, page_size)
-        except Exception:
-            pass
+        data = self.get_page(page, page_size)
+        next = self.get_page(page+1, page_size)
 
         total = len(self.__dataset) / page_size
         total = int(total + 1) if total - int(total) > 0 else int(total)
@@ -67,7 +63,7 @@ class Server:
             "page_size": len(data),
             "page": page,
             "data": data,
-            "next_page": None if not next else page + 1,
-            "prev_page": None if page <= 1 else page - 1,
+            "next_page": page + 1 if len(next) > 0 else None,
+            "prev_page": page - 1 if page > 1 else None,
             "total_pages": total
         }
