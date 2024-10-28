@@ -41,7 +41,8 @@ class Server:
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
         """
-        Retrieve a page of data with hypermedia pagination, accounting for deleted records.
+        Retrieve a page of data with hypermedia pagination,
+        accounting for deleted records.
         """
         data = self.indexed_dataset()
 
@@ -57,7 +58,8 @@ class Server:
         diff = start - index
 
         includes_deleted = isinstance(
-            deleted_index, int) and deleted_index >= start and deleted_index <= end
+            deleted_index, int
+        ) and deleted_index >= start and deleted_index <= end
         if (includes_deleted):
             next_index = end + 1
         else:
@@ -67,7 +69,8 @@ class Server:
         page_data = list(data.values())[index: next_index]
         return {
             "index": index if includes_deleted else index + diff,
-            "next_index": next_index if includes_deleted else next_index + diff,
+            "next_index": next_index if includes_deleted else
+            next_index + diff,
             "page_size": len(page_data),
             "data": page_data
         }
