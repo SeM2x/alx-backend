@@ -40,6 +40,9 @@ class Server:
         return self.__indexed_dataset
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
+        """
+        Retrieve a page of data with hypermedia pagination, accounting for deleted records.
+        """
         data = self.indexed_dataset()
 
         assert index >= 0 and index < len(data)
