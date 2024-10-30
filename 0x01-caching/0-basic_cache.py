@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-""" Basic dictionary """
+""" module to implement BasicCache class """
 
 BaseCaching = __import__('base_caching').BaseCaching
 
 
 class BasicCache(BaseCaching):
+    """ Basic cache class """
+
     def __init__(self):
+        """ Constructor """
         super().__init__()
 
     def put(self, key, item):
